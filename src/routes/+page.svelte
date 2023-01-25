@@ -13,22 +13,25 @@
 	const get_overall_growths = (ug: number[], cg: number[]) => ug.map((g, i) => g + cg[i]);
 
 	let unit_ = "Alear";
-	let correlation_recommendations: (number | string)[][], excellent_stat_thresholds: number[];
 
-	$: correlation_recommendations = ((unit_) => {
+	let recs_by_correlation: (number | string)[][];
+	$: recs_by_correlation = ((unit_) => {
 		let correlation = classes.map((class_) => {
 			return [round(sampleCorrelation(unit_growths[unit_], class_growths[class_]), 3), class_];
 		});
-		return correlation.sort().reverse().slice(0, 3);
+		return correlation.sort().reverse();
 	})(unit_);
 
-	$: excellent_stat_thresholds = ((unit_: string) => {
+	let exc_ovr_stat_thresholds: number[];
+	$: exc_ovr_stat_thresholds = ((unit_: string) => {
 		const stats = transpose(classes.map((class_) => get_overall_growths(unit_growths[unit_], class_growths[class_])));
 		const means = stats.map((stat) => mean(stat));
 		const stddevs = stats.map((stat) => standardDeviation(stat));
 		const thresholds = means.map((m, i) => m + stddevs[i]);
 		return thresholds;
 	})(unit_);
+
+	let show_overall_growths = true;
 </script>
 
 <svelte:head>
@@ -44,14 +47,21 @@
 				<option>{name}</option>
 			{/each}
 		</select>
-		<div>
-			<h3>Top correlated classes:</h3>
-			<ul>
-				{#each correlation_recommendations as rec }
-					<li>{rec[1]} ({rec[0]})</li>
-				{/each}
-			</ul>
-		</div>
+		<button on:click={() => show_overall_growths = !show_overall_growths}>
+			{#if show_overall_growths}
+				Show class growths
+			{:else}
+				Show overall growths
+			{/if}
+		</button>
+	</div>
+	<div>
+		<h3>Top correlated classes:</h3>
+		<ul>
+			{#each recs_by_correlation.slice(0, 3) as rec }
+				<li>{rec[1]} ({rec[0]})</li>
+			{/each}
+		</ul>
 	</div>
 	<table>
 		<thead>
@@ -72,16 +82,22 @@
 			<tr style="background-color: lightgrey;">
 				<th class="row-header">Base Growths</th>
 				{#each unit_growths[unit_] as ug}
-				<td>{ug}</td>
+					<td>{ug}</td>
 				{/each}
 			</tr>
-			{#each Object.keys(class_growths) as class_ }
-			<tr>
-				<th class="row-header">{class_}</th>
-				{#each get_overall_growths(unit_growths[unit_], class_growths[class_]) as tg, i }
-					<td class="{ tg >= excellent_stat_thresholds[i] ? 'excellent-growth' : '' }">{tg}</td>
-				{/each}
-			</tr>
+			{#each classes as class_ }
+				<tr>
+					<th class="row-header">{class_}</th>
+					{#if show_overall_growths}
+						{#each get_overall_growths(unit_growths[unit_], class_growths[class_]) as tg, i}
+							<td class="{ tg >= exc_ovr_stat_thresholds[i] ? 'excellent-growth' : '' }">{tg}</td>
+						{/each}
+					{:else}
+						{#each class_growths[class_] as cg, i}
+							<td class="{ cg + unit_growths[unit_][i] >= exc_ovr_stat_thresholds[i] ? 'excellent-growth' : '' }">{cg}</td>
+						{/each}
+					{/if}
+				</tr>
 			{/each}
 		</tbody>
 	</table>
