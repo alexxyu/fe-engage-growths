@@ -18,252 +18,252 @@ export const units: Record<string, Unit> = {
 		base_class: 'Dragon Child',
 		base_stats: [22, 6, 0, 5, 7, 5, 3, 5, 4],
 		growth_rates: [60, 35, 20, 45, 50, 40, 25, 25, 5],
-		max_stat_modifiers: [1, 0, 1, 1, 0, 0, 0]
+		max_stat_modifiers: [0, 1, 0, 1, 1, 0, 0, 0, 0]
 	},
 	Vander: {
 		base_level: 1,
 		base_class: 'Paladin',
 		base_stats: [40, 11, 5, 10, 8, 10, 8, 6, 8],
 		growth_rates: [60, 25, 10, 25, 35, 35, 20, 10, 5],
-		max_stat_modifiers: [1, -1, 1, -2, 3, -2, 0]
+		max_stat_modifiers: [0, 1, -1, 1, -2, 3, -2, 0, 0]
 	},
 	Clanne: {
 		base_level: 1,
 		base_class: 'Mage',
 		base_stats: [19, 1, 8, 11, 9, 4, 7, 4, 4],
 		growth_rates: [40, 35, 10, 40, 50, 30, 25, 20, 5],
-		max_stat_modifiers: [1, -1, 2, 2, -2, -1, 0]
+		max_stat_modifiers: [0, 1, -1, 2, 2, -2, -1, 0, 0]
 	},
 	Framme: {
 		base_level: 1,
 		base_class: 'Martial Monk',
 		base_stats: [18, 3, 5, 8, 7, 4, 8, 5, 3],
 		growth_rates: [55, 30, 25, 35, 55, 25, 30, 25, 0],
-		max_stat_modifiers: [0, 1, -1, 2, -1, -1, 1]
+		max_stat_modifiers: [0, 0, 1, -1, 2, -1, -1, 1, 0]
 	},
 	Alfred: {
 		base_level: 5,
 		base_class: 'Noble',
 		base_stats: [27, 9, 2, 10, 6, 8, 5, 8, 6],
 		growth_rates: [65, 40, 5, 35, 40, 40, 20, 40, 10],
-		max_stat_modifiers: [2, -1, 1, 0, 2, -2, -1]
+		max_stat_modifiers: [0, 2, -1, 1, 0, 2, -2, -1, 0]
 	},
 	Etie: {
 		base_level: 4,
 		base_class: 'Archer',
 		base_stats: [21, 10, 0, 11, 6, 3, 2, 8, 4],
 		growth_rates: [45, 40, 0, 25, 35, 25, 30, 25, 5],
-		max_stat_modifiers: [2, -2, 2, 0, 0, -1, -1]
+		max_stat_modifiers: [0, 2, -2, 2, 0, 0, -1, -1, 0]
 	},
 	Boucheron: {
 		base_level: 4,
 		base_class: 'Axe Fighter',
 		base_stats: [29, 10, 0, 8, 7, 6, 3, 5, 9],
 		growth_rates: [85, 20, 0, 50, 45, 35, 20, 15, 20],
-		max_stat_modifiers: [1, 0, 2, 2, -2, 0, -2]
+		max_stat_modifiers: [0, 1, 0, 2, 2, -2, 0, -2, 0]
 	},
 	'C\u00e9line': {
 		base_level: 5,
 		base_class: 'Noble',
 		base_stats: [22, 7, 9, 9, 10, 5, 7, 11, 4],
 		growth_rates: [50, 35, 25, 30, 45, 30, 40, 50, 5],
-		max_stat_modifiers: [-2, 2, -2, 1, -3, 1, 3]
+		max_stat_modifiers: [0, -2, 2, -2, 1, -3, 1, 3, 0]
 	},
 	'Chlo\u00e9': {
 		base_level: 6,
 		base_class: 'Lance Flier',
 		base_stats: [26, 8, 4, 13, 13, 5, 9, 10, 5],
 		growth_rates: [75, 25, 35, 40, 55, 30, 25, 25, 5],
-		max_stat_modifiers: [-2, 1, 0, 3, -1, 0, 0]
+		max_stat_modifiers: [0, -2, 1, 0, 3, -1, 0, 0, 0]
 	},
 	Louis: {
 		base_level: 6,
 		base_class: 'Lance Armor',
 		base_stats: [30, 13, 0, 11, 3, 16, 1, 4, 8],
 		growth_rates: [75, 40, 0, 25, 25, 50, 20, 25, 15],
-		max_stat_modifiers: [1, 0, -1, -2, 3, -2, 1]
+		max_stat_modifiers: [0, 1, 0, -1, -2, 3, -2, 1, 0]
 	},
 	Yunaka: {
 		base_level: 6,
 		base_class: 'Thief',
 		base_stats: [25, 8, 5, 14, 12, 9, 7, 8, 5],
 		growth_rates: [50, 35, 25, 40, 45, 15, 45, 25, 5],
-		max_stat_modifiers: [-1, 0, 1, 2, -2, 2, -1]
+		max_stat_modifiers: [0, -1, 0, 1, 2, -2, 2, -1, 0]
 	},
 	Alcryst: {
 		base_level: 10,
 		base_class: 'Lord',
 		base_stats: [28, 11, 2, 17, 12, 8, 5, 8, 6],
 		growth_rates: [65, 30, 10, 40, 45, 30, 20, 15, 10],
-		max_stat_modifiers: [1, -1, 3, 0, 1, -2, -1]
+		max_stat_modifiers: [0, 1, -1, 3, 0, 1, -2, -1, 0]
 	},
 	Citrinne: {
 		base_level: 10,
 		base_class: 'Mage',
 		base_stats: [24, 2, 15, 13, 10, 3, 12, 10, 4],
 		growth_rates: [45, 10, 40, 25, 30, 20, 40, 25, 5],
-		max_stat_modifiers: [-1, 3, 0, -1, -2, 2, 0]
+		max_stat_modifiers: [0, -1, 3, 0, -1, -2, 2, 0, 0]
 	},
 	Lapis: {
 		base_level: 10,
 		base_class: 'Sword Fighter',
 		base_stats: [26, 11, 2, 12, 14, 7, 6, 7, 5],
 		growth_rates: [55, 25, 20, 35, 55, 35, 30, 25, 5],
-		max_stat_modifiers: [-2, -2, 2, 3, 0, 0, 0]
+		max_stat_modifiers: [0, -2, -2, 2, 3, 0, 0, 0, 0]
 	},
 	Diamant: {
 		base_level: 11,
 		base_class: 'Lord',
 		base_stats: [32, 13, 3, 13, 13, 10, 6, 10, 9],
 		growth_rates: [75, 30, 15, 20, 40, 40, 25, 20, 15],
-		max_stat_modifiers: [2, -1, -1, 0, 2, -1, 0]
+		max_stat_modifiers: [0, 2, -1, -1, 0, 2, -1, 0, 0]
 	},
 	Amber: {
 		base_level: 11,
 		base_class: 'Lance Cavalier',
 		base_stats: [31, 15, 2, 13, 11, 9, 3, 9, 8],
 		growth_rates: [65, 45, 0, 25, 30, 35, 5, 35, 15],
-		max_stat_modifiers: [2, -1, -1, -1, 1, -1, 1]
+		max_stat_modifiers: [0, 2, -1, -1, -1, 1, -1, 1, 0]
 	},
 	Jade: {
 		base_level: 12,
 		base_class: 'Axe Armor',
 		base_stats: [33, 14, 4, 14, 5, 18, 6, 5, 8],
 		growth_rates: [55, 35, 25, 35, 30, 40, 30, 20, 10],
-		max_stat_modifiers: [1, -1, 0, 0, 2, 0, -1]
+		max_stat_modifiers: [0, 1, -1, 0, 0, 2, 0, -1, 0]
 	},
 	Ivy: {
 		base_level: 17,
 		base_class: 'Wing Tamer',
 		base_stats: [32, 7, 17, 15, 13, 12, 15, 4, 7],
 		growth_rates: [55, 25, 30, 25, 40, 30, 35, 15, 10],
-		max_stat_modifiers: [0, 2, -2, 0, 2, 2, -3]
+		max_stat_modifiers: [0, 0, 2, -2, 0, 2, 2, -3, 0]
 	},
 	Kagetsu: {
 		base_level: 1,
 		base_class: 'Swordmaster',
 		base_stats: [35, 17, 5, 22, 22, 14, 10, 17, 9],
 		growth_rates: [60, 30, 15, 50, 50, 40, 25, 40, 10],
-		max_stat_modifiers: [-1, -1, 2, 2, 0, -2, 1]
+		max_stat_modifiers: [0, -1, -1, 2, 2, 0, -2, 1, 0]
 	},
 	Zelkov: {
 		base_level: 17,
 		base_class: 'Thief',
 		base_stats: [35, 15, 3, 19, 19, 14, 5, 7, 9],
 		growth_rates: [65, 35, 15, 40, 35, 35, 15, 25, 10],
-		max_stat_modifiers: [0, -1, 2, 0, 0, -1, 1]
+		max_stat_modifiers: [0, 0, -1, 2, 0, 0, -1, 1, 0]
 	},
 	Fogado: {
 		base_level: 17,
 		base_class: 'Sentinel',
 		base_stats: [33, 12, 7, 17, 18, 10, 11, 8, 8],
 		growth_rates: [60, 30, 25, 30, 55, 30, 35, 25, 10],
-		max_stat_modifiers: [-1, -1, 0, 3, -1, 1, 0]
+		max_stat_modifiers: [0, -1, -1, 0, 3, -1, 1, 0, 0]
 	},
 	Pandreo: {
 		base_level: 1,
 		base_class: 'High Priest',
 		base_stats: [34, 7, 16, 18, 17, 8, 22, 14, 8],
 		growth_rates: [60, 5, 30, 45, 45, 15, 55, 30, 15],
-		max_stat_modifiers: [-3, 2, 0, -1, -2, 3, 2]
+		max_stat_modifiers: [0, -3, 2, 0, -1, -2, 3, 2, 0]
 	},
 	Bunet: {
 		base_level: 1,
 		base_class: 'Great Knight',
 		base_stats: [41, 15, 5, 15, 9, 20, 8, 13, 11],
 		growth_rates: [65, 30, 10, 40, 35, 45, 25, 40, 10],
-		max_stat_modifiers: [1, -3, 1, 0, 2, -1, 1]
+		max_stat_modifiers: [0, 1, -3, 1, 0, 2, -1, 1, 0]
 	},
 	Timerra: {
 		base_level: 18,
 		base_class: 'Sentinel',
 		base_stats: [35, 14, 6, 17, 18, 16, 8, 10, 5],
 		growth_rates: [55, 25, 25, 45, 45, 30, 30, 30, 10],
-		max_stat_modifiers: [-1, -1, 3, 0, 2, -3, 1]
+		max_stat_modifiers: [0, -1, -1, 3, 0, 2, -3, 1, 0]
 	},
 	Panette: {
 		base_level: 1,
 		base_class: 'Berserker',
 		base_stats: [46, 25, 3, 19, 13, 11, 7, 11, 11],
 		growth_rates: [75, 45, 10, 40, 25, 30, 15, 20, 15],
-		max_stat_modifiers: [3, -1, 0, 0, 0, -1, 0]
+		max_stat_modifiers: [0, 3, -1, 0, 0, 0, -1, 0, 0]
 	},
 	Merrin: {
 		base_level: 1,
 		base_class: 'Wolf Knight',
 		base_stats: [36, 15, 10, 21, 21, 12, 12, 14, 9],
 		growth_rates: [55, 25, 25, 40, 50, 30, 30, 25, 10],
-		max_stat_modifiers: [-1, -1, 1, 2, -1, 0, 1]
+		max_stat_modifiers: [0, -1, -1, 1, 2, -1, 0, 1, 0]
 	},
 	Hortensia: {
 		base_level: 19,
 		base_class: 'Wing Tamer',
 		base_stats: [27, 5, 12, 21, 19, 6, 23, 17, 5],
 		growth_rates: [40, 20, 20, 35, 50, 25, 55, 50, 0],
-		max_stat_modifiers: [-2, 0, 0, 1, -3, 3, 2]
+		max_stat_modifiers: [0, -2, 0, 0, 1, -3, 3, 2, 0]
 	},
 	Seadall: {
 		base_level: 15,
 		base_class: 'Dancer',
 		base_stats: [33, 12, 4, 15, 16, 10, 10, 11, 8],
 		growth_rates: [55, 25, 15, 25, 50, 25, 25, 35, 10],
-		max_stat_modifiers: [0, -2, -1, 2, 0, 0, 2]
+		max_stat_modifiers: [0, 0, -2, -1, 2, 0, 0, 2, 0]
 	},
 	Rosado: {
 		base_level: 3,
 		base_class: 'Wyvern Knight',
 		base_stats: [44, 16, 7, 19, 21, 15, 11, 8, 8],
 		growth_rates: [75, 45, 25, 40, 45, 30, 30, 20, 5],
-		max_stat_modifiers: [3, -2, 1, 0, 1, -2, 0]
+		max_stat_modifiers: [0, 3, -2, 1, 0, 1, -2, 0, 0]
 	},
 	Goldmary: {
 		base_level: 3,
 		base_class: 'Hero',
 		base_stats: [40, 17, 2, 18, 20, 20, 12, 13, 9],
 		growth_rates: [65, 30, 5, 25, 25, 55, 25, 25, 5],
-		max_stat_modifiers: [1, -3, 0, 0, 2, -1, 2]
+		max_stat_modifiers: [0, 1, -3, 0, 0, 2, -1, 2, 0]
 	},
 	Lindon: {
 		base_level: 5,
 		base_class: 'Sage',
 		base_stats: [38, 8, 19, 21, 19, 12, 21, 8, 10],
 		growth_rates: [65, 25, 25, 25, 40, 25, 40, 15, 10],
-		max_stat_modifiers: [0, 2, -1, 0, -2, 2, 0]
+		max_stat_modifiers: [0, 0, 2, -1, 0, -2, 2, 0, 0]
 	},
 	Saphir: {
 		base_level: 7,
 		base_class: 'Warrior',
 		base_stats: [51, 24, 2, 23, 19, 19, 9, 15, 15],
 		growth_rates: [80, 35, 0, 25, 30, 30, 5, 20, 10],
-		max_stat_modifiers: [2, -2, 0, 1, 1, -2, 0]
+		max_stat_modifiers: [0, 2, -2, 0, 1, 1, -2, 0, 0]
 	},
 	Veyle: {
 		base_level: 35,
 		base_class: 'Fell Child',
 		base_stats: [35, 20, 26, 24, 23, 17, 29, 18, 7],
 		growth_rates: [40, 25, 45, 35, 30, 25, 35, 20, 0],
-		max_stat_modifiers: [0, 3, 0, -1, 0, 3, -2]
+		max_stat_modifiers: [0, 0, 3, 0, -1, 0, 3, -2, 0]
 	},
 	Mauvier: {
 		base_level: 12,
 		base_class: 'Royal Knight',
 		base_stats: [51, 21, 23, 25, 22, 26, 24, 16, 12],
 		growth_rates: [70, 35, 40, 40, 35, 50, 45, 15, 15],
-		max_stat_modifiers: [1, 2, 1, -2, 1, 1, -2]
+		max_stat_modifiers: [0, 1, 2, 1, -2, 1, 1, -2, 0]
 	},
 	Anna: {
 		base_level: 5,
 		base_class: 'Axe Fighter',
 		base_stats: [29, 10, 2, 9, 7, 4, 5, 3, 7],
 		growth_rates: [55, 15, 50, 50, 50, 20, 35, 45, 5],
-		max_stat_modifiers: [0, 1, 1, 1, -2, -1, 1]
+		max_stat_modifiers: [0, 0, 1, 1, 1, -2, -1, 1, 0]
 	},
 	Jean: {
 		base_level: 1,
 		base_class: 'Martial Monk',
 		base_stats: [19, 4, 5, 10, 7, 4, 8, 3, 3],
 		growth_rates: [50, 20, 20, 35, 40, 25, 20, 25, 5],
-		max_stat_modifiers: [0, 2, -1, -1, 0, 0, 1]
+		max_stat_modifiers: [0, 0, 2, -1, -1, 0, 0, 1, 0]
 	}
 };
 
@@ -472,7 +472,7 @@ export const exclusive_classes: Record<string, Record<string, Class>> = {
 			is_base_class: false
 		}
 	},
-	Celine: {
+	'C\u00e9line': {
 		Noble: {
 			growth_rates: [0, 5, 10, 5, 5, 5, 10, 20, 0],
 			max_stats: [56, 38, 37, 29, 41, 27, 35, 50, 11],
@@ -563,4 +563,15 @@ export const exclusive_classes: Record<string, Record<string, Class>> = {
 			is_base_class: false
 		}
 	}
+};
+
+export const get_overall_growths = (unit_growths: number[], class_growths: number[]) =>
+	unit_growths.map((g, i) => g + class_growths[i]);
+
+export const get_class_growths = (unit_: string, class_: string) => {
+	return classes?.[class_]?.growth_rates ?? exclusive_classes[unit_][class_].growth_rates;
+};
+
+export const get_class = (unit_: string, class_: string) => {
+	return classes?.[class_] ?? exclusive_classes[unit_][class_];
 };

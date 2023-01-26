@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { units, classes, exclusive_classes } from './data';
+	import { units, classes, exclusive_classes, get_overall_growths, get_class_growths } from './data';
 	import { transpose } from 'matrix-transpose';
 	import { mean, sampleCorrelation, standardDeviation } from 'simple-statistics';
 
@@ -8,11 +8,6 @@
 		let k = 10 ** d;
 		return Math.round((n + Number.EPSILON) * k) / k;
 	}
-
-	const get_overall_growths = (ug: number[], cg: number[]) => ug.map((g, i) => g + cg[i]);
-	const get_class_growths = (unit_: string, class_: string) => {
-		return classes?.[class_]?.growth_rates ?? exclusive_classes[unit_][class_].growth_rates;
-	};
 
 	let unit_ = "Alear";
 
