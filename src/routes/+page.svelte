@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { unit_growths, class_growths } from './data';
+	import { units, classes, exclusive_classes } from './data';
 	import { transpose } from 'matrix-transpose';
 	import { mean, sampleCorrelation, standardDeviation } from 'simple-statistics';
 
@@ -9,27 +9,33 @@
 		return Math.round((n + Number.EPSILON) * k) / k;
 	}
 
-	const classes = Object.keys(class_growths);
 	const get_overall_growths = (ug: number[], cg: number[]) => ug.map((g, i) => g + cg[i]);
+	const get_class_growths = (unit_: string, class_: string) => {
+		return classes?.[class_]?.growth_rates ?? exclusive_classes[unit_][class_].growth_rates;
+	};
 
 	let unit_ = "Alear";
 
+	let class_names: string[];
 	let recs_by_correlation: (number | string)[][];
-	$: recs_by_correlation = ((unit_) => {
-		let correlation = classes.map((class_) => {
-			return [round(sampleCorrelation(unit_growths[unit_], class_growths[class_]), 3), class_];
-		});
-		return correlation.sort().reverse();
-	})(unit_);
-
 	let exc_ovr_stat_thresholds: number[];
-	$: exc_ovr_stat_thresholds = ((unit_: string) => {
-		const stats = transpose(classes.map((class_) => get_overall_growths(unit_growths[unit_], class_growths[class_])));
-		const means = stats.map((stat) => mean(stat));
-		const stddevs = stats.map((stat) => standardDeviation(stat));
-		const thresholds = means.map((m, i) => m + stddevs[i]);
-		return thresholds;
-	})(unit_);
+
+	$: {
+		class_names = [...Object.keys(exclusive_classes?.[unit_] ?? {}).filter((name) => exclusive_classes?.[unit_]?.[name]), ...Object.keys(classes)];
+		recs_by_correlation = ((unit_) => {
+			let correlation = class_names.map((class_) => {
+				return [round(sampleCorrelation(units[unit_].growth_rates, get_class_growths(unit_, class_)), 3), class_];
+			});
+			return correlation.sort().reverse();
+		})(unit_);
+		exc_ovr_stat_thresholds = ((unit_: string) => {
+			const stats = transpose(class_names.map((class_) => get_overall_growths(units[unit_].growth_rates, get_class_growths(unit_, class_))));
+			const means = stats.map((stat) => mean(stat));
+			const stddevs = stats.map((stat) => standardDeviation(stat));
+			const thresholds = means.map((m, i) => m + stddevs[i]);
+			return thresholds;
+		})(unit_);
+	}
 
 	let show_overall_growths = true;
 </script>
@@ -43,8 +49,10 @@
 	<div>
 		<label for="unit-select">Unit: </label>
 		<select id="unit-select" bind:value={unit_}>
-			{#each Object.keys(unit_growths) as name}
-				<option>{name}</option>
+			{#each Object.keys(units) as name}
+				<option value={name}>
+					{name}
+				</option>
 			{/each}
 		</select>
 		<button on:click={() => show_overall_growths = !show_overall_growths}>
@@ -81,20 +89,20 @@
 		<tbody>
 			<tr style="background-color: lightgrey;">
 				<th class="row-header">Base Growths</th>
-				{#each unit_growths[unit_] as ug}
+				{#each units[unit_].growth_rates as ug}
 					<td>{ug}</td>
 				{/each}
 			</tr>
-			{#each classes as class_ }
+			{#each class_names as class_ }
 				<tr>
 					<th class="row-header">{class_}</th>
 					{#if show_overall_growths}
-						{#each get_overall_growths(unit_growths[unit_], class_growths[class_]) as tg, i}
+						{#each get_overall_growths(units[unit_].growth_rates, get_class_growths(unit_, class_)) as tg, i}
 							<td class="{ tg >= exc_ovr_stat_thresholds[i] ? 'excellent-growth' : '' }">{tg}</td>
 						{/each}
 					{:else}
-						{#each class_growths[class_] as cg, i}
-							<td class="{ cg + unit_growths[unit_][i] >= exc_ovr_stat_thresholds[i] ? 'excellent-growth' : '' }">{cg}</td>
+						{#each classes[class_].growth_rates as cg, i}
+							<td class="{ cg + units[unit_].growth_rates[i] >= exc_ovr_stat_thresholds[i] ? 'excellent-growth' : '' }">{cg}</td>
 						{/each}
 					{/if}
 				</tr>
