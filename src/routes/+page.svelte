@@ -81,6 +81,25 @@
 		data = data;
 	};
 
+	const delete_entry = (name_: string, i: number) => {
+		data[name_].splice(i, 1);
+		data[name_].forEach((entry, i) => {
+			if (i > 0) {
+				const previous_final_stats = data[name_][i - 1].expected_final_stats;
+				const stats: number[] = get_expected_final_stats(
+					name_,
+					entry.class_name,
+					previous_final_stats,
+					1,
+					entry.final_level
+				);
+				data[name_][i].expected_final_stats = stats;
+			}
+		});
+
+		data = data;
+	};
+
 	let visible_unit = 'Alear';
 </script>
 
@@ -121,11 +140,14 @@
 								max="40"
 								required
 							/>
-							<button type="submit" class="btn btn-outline btn-primary">Add promotion</button>
+							<button type="submit" class="btn btn-sm btn-outline btn-primary">
+								Add promotion
+							</button>
 						</form>
 						<table class="table">
 							<thead>
 								<tr>
+									<th class="bg-transparent" />
 									<th />
 									<th class="text-lg">HP</th>
 									<th class="text-lg">Str</th>
@@ -139,9 +161,21 @@
 								</tr>
 							</thead>
 							<tbody>
-								{#each data[name] as class_entry}
+								{#each data[name] as class_entry, i}
 									<tr>
-										<th>{class_entry.class_name} lvl. {class_entry.final_level}</th>
+										<th class="border-none px-0">
+											{#if i > 0}
+												<button
+													class="btn btn-xs btn-outline btn-error mx-4"
+													on:click={() => delete_entry(name, i)}
+												>
+													X
+												</button>
+											{/if}
+										</th>
+										<th class="">
+											{class_entry.class_name} lvl. {class_entry.final_level}
+										</th>
 										{#each class_entry.expected_final_stats as stat}
 											<td>{stat}</td>
 										{/each}
