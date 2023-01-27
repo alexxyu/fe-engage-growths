@@ -569,7 +569,11 @@ export const get_overall_growths = (unit_growths: number[], class_growths: numbe
 	unit_growths.map((g, i) => g + class_growths[i]);
 
 export const get_class_growths = (unit_: string, class_: string) => {
-	return classes?.[class_]?.growth_rates ?? exclusive_classes[unit_][class_].growth_rates;
+	const mod = unit_ === 'Jean' ? 2 : 1;
+	return (
+		classes?.[class_]?.growth_rates.map((x) => x * mod) ??
+		exclusive_classes[unit_][class_].growth_rates.map((x) => x * mod)
+	);
 };
 
 export const get_class = (unit_: string, class_: string) => {
