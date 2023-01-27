@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		units,
-		classes,
-		exclusive_classes,
-		get_overall_growths,
-		get_class_growths
-	} from './data';
+	import { units, get_overall_growths, get_class_growths, get_available_class_names } from './data';
 	import { transpose } from 'matrix-transpose';
 	import { mean, sampleCorrelation, standardDeviation } from 'simple-statistics';
 
@@ -22,12 +16,7 @@
 	let exc_ovr_stat_thresholds: number[];
 
 	$: {
-		class_names = [
-			...Object.keys(exclusive_classes?.[unit_] ?? {}).filter(
-				(name) => exclusive_classes?.[unit_]?.[name]
-			),
-			...Object.keys(classes)
-		];
+		class_names = get_available_class_names(unit_);
 		recs_by_correlation = ((unit_) => {
 			let correlation = class_names.map((class_) => {
 				return [

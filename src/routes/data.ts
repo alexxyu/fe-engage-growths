@@ -579,3 +579,16 @@ export const get_class_growths = (unit_: string, class_: string) => {
 export const get_class = (unit_: string, class_: string) => {
 	return classes?.[class_] ?? exclusive_classes[unit_][class_];
 };
+
+export const get_available_class_names = (unit_: string) => {
+	return [
+		...Object.keys(exclusive_classes?.[unit_] ?? {}).filter(
+			(name) => exclusive_classes?.[unit_]?.[name]
+		),
+		...Object.keys(classes)
+	];
+};
+
+export const get_max_level_of_class = (class_: string) => {
+	return class_ === 'Dancer' || class_ == 'Thief' ? 40 : 20;
+};

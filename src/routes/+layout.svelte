@@ -8,6 +8,4 @@
 	<a class="btn btn-ghost normal-case text-xl" href="/about/">About</a>
 </div>
 
-<div class="w-4/5 mx-auto">
-	<slot />
-</div>
+<slot />

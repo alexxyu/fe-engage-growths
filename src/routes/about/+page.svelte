@@ -3,8 +3,8 @@
 	<meta name="description" content="About this app" />
 </svelte:head>
 
-<div>
-	<p class="mb-3 text-2xl font-bold">About this app</p>
+<div class="w-4/5 mx-auto">
+	<p class="my-3 text-2xl font-bold">About this app</p>
 
 	<p class="my-3">
 		This is a web app that allows you to check unit growths in Fire Emblem Engage. I was inspired to
