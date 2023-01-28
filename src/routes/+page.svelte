@@ -8,48 +8,58 @@
 		get_available_class_names
 	} from './data';
 
-	const get_expected_final_stats = (
+	const get_expected_stat_increases = (
 		name: string,
 		current_class: string,
-		current_stats: number[],
 		current_level: number,
+		new_class: string,
 		final_level: number
 	) => {
 		const unit = units[name];
 		const remaining_levels = final_level - current_level;
 		const overall_growths = get_overall_growths(
 			unit.growth_rates,
-			get_class_growths(name, current_class)
+			get_class_growths(name, new_class)
 		);
-		const max_class_stats = get_class(name, current_class).max_stats;
-		return current_stats.map((x, i) => {
-			let e_x = x + Math.round((remaining_levels * overall_growths[i]) / 100);
-			return Math.min(e_x, max_class_stats[i] + unit.max_stat_modifiers[i]);
-		});
+
+		const class_base_stats_current = get_class(name, current_class).base_stats;
+		const class_base_stats_new = get_class(name, new_class).base_stats;
+		return overall_growths.map(
+			(x, i) =>
+				class_base_stats_new[i] -
+				class_base_stats_current[i] +
+				Math.round((remaining_levels * x) / 100)
+		);
 	};
 
-	type UnitEntry = {
+	type PromotionEntry = {
 		class_name: string;
 		final_level: number;
+		stat_increases: number[];
 		expected_final_stats: number[];
 	};
 
-	let data: Record<string, UnitEntry[]> = {};
+	let data: Record<string, PromotionEntry[]> = {};
 	Object.keys(units).forEach((name) => {
 		const unit = units[name];
 		const final_level = get_max_level_of_class(unit.base_class);
-		const stats = get_expected_final_stats(
+		const stat_increases = get_expected_stat_increases(
 			name,
 			unit.base_class,
-			unit.base_stats,
 			unit.base_level,
+			unit.base_class,
 			final_level
 		);
+		const max_class_stats = get_class(name, unit.base_class).max_stats;
+		const final_stats = unit.base_stats.map((x, i) => {
+			return Math.min(x + stat_increases[i], max_class_stats[i]);
+		});
 		data[name] = [
 			{
 				class_name: unit.base_class,
 				final_level: final_level,
-				expected_final_stats: stats
+				stat_increases,
+				expected_final_stats: final_stats
 			}
 		];
 	});
@@ -62,19 +72,19 @@
 		}
 
 		const { name_, class_, level_ } = form_data;
-		const previous_final_stats = data[name_].slice(-1)[0].expected_final_stats;
-		const stats: number[] = get_expected_final_stats(
-			name_,
-			class_,
-			previous_final_stats,
-			1,
-			level_
-		);
+		const { class_name: current_class, expected_final_stats: previous_final_stats } =
+			data[name_].slice(-1)[0];
+
+		const stat_increases = get_expected_stat_increases(name_, current_class, 1, class_, level_);
+		const final_stats = previous_final_stats.map((x, i) => {
+			return Math.min(x + stat_increases[i], get_class(name_, class_).max_stats[i]);
+		});
 
 		data[name_].push({
 			class_name: class_,
 			final_level: level_,
-			expected_final_stats: stats
+			stat_increases,
+			expected_final_stats: final_stats
 		});
 
 		// This line is required to force a reactive update
@@ -83,20 +93,23 @@
 
 	const delete_entry = (name_: string, i: number) => {
 		data[name_].splice(i, 1);
-		data[name_].forEach((entry, i) => {
-			if (i > 0) {
-				const previous_final_stats = data[name_][i - 1].expected_final_stats;
-				const stats: number[] = get_expected_final_stats(
-					name_,
-					entry.class_name,
-					previous_final_stats,
-					1,
-					entry.final_level
-				);
-				data[name_][i].expected_final_stats = stats;
-			}
+		data[name_].reduce((prev, entry) => {
+			console.log(prev, entry);
+			const stat_increases = get_expected_stat_increases(
+				name_,
+				prev.class_name,
+				1,
+				entry.class_name,
+				entry.final_level
+			);
+			entry.stat_increases = stat_increases;
+			entry.expected_final_stats = prev.expected_final_stats.map((x, i) => {
+				return Math.min(x + stat_increases[i], get_class(name_, entry.class_name).max_stats[i]);
+			});
+			return entry;
 		});
 
+		// This line is required to force a reactive update
 		data = data;
 	};
 
