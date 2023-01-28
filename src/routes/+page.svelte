@@ -42,38 +42,52 @@
 	let data: Record<string, PromotionEntry[]> = {};
 	Object.keys(units).forEach((name) => {
 		const unit = units[name];
-		const final_level = get_max_level_of_class(unit.base_class);
-		const stat_increases = get_expected_stat_increases(
-			name,
-			unit.base_class,
-			unit.base_level,
-			unit.base_class,
-			final_level
-		);
-		const max_class_stats = get_class(name, unit.base_class).max_stats;
-		const final_stats = unit.base_stats.map((x, i) => {
-			return Math.min(x + stat_increases[i], max_class_stats[i]);
-		});
 		data[name] = [
 			{
 				class_name: unit.base_class,
-				final_level: final_level,
-				stat_increases,
-				expected_final_stats: final_stats
+				final_level: unit.base_level,
+				stat_increases: unit.base_stats,
+				expected_final_stats: unit.base_stats
 			}
 		];
 	});
 
+	let errors: string[] = [];
+	let display_errors = false;
+
 	const add_entry = (e: SubmitEvent) => {
-		const form_data: Record<string, any> = {};
-		for (let field of new FormData(e.target as HTMLFormElement)) {
-			const [key, value] = field;
-			form_data[key] = value;
+		const form = e.target as HTMLFormElement;
+		const name_ = form.name_.value;
+		const class_ = form.class_.value;
+		const level_ = form.level_.value;
+
+		errors = [];
+		if (level_ < 1 || level_ > 40) {
+			errors = [...errors, 'Level must be between 1 and 40.'];
+		} else if (level_ > 20 && class_ !== 'Thief' && class_ !== 'Dancer') {
+			errors = [...errors, 'Only Thieves and Dancers can level past 20.'];
 		}
 
-		const { name_, class_, level_ } = form_data;
-		const { class_name: current_class, expected_final_stats: previous_final_stats } =
-			data[name_].slice(-1)[0];
+		const prev_entry = data[name_].slice(-1)[0];
+		const {
+			class_name: current_class,
+			expected_final_stats: previous_final_stats,
+			final_level: current_level
+		} = prev_entry;
+
+		const current_class_data = get_class(name_, current_class);
+		const new_class_data = get_class(name_, class_);
+		if (!new_class_data.is_base_class && current_class_data.is_base_class && current_level < 10) {
+			errors = [
+				...errors,
+				'Unit must be at least level 10 in a base class to promote to an advanced class.'
+			];
+		}
+
+		if (errors.length > 0) {
+			display_errors = true;
+			return;
+		}
 
 		const stat_increases = get_expected_stat_increases(name_, current_class, 1, class_, level_);
 		const final_stats = previous_final_stats.map((x, i) => {
@@ -94,7 +108,6 @@
 	const delete_entry = (name_: string, i: number) => {
 		data[name_].splice(i, 1);
 		data[name_].reduce((prev, entry) => {
-			console.log(prev, entry);
 			const stat_increases = get_expected_stat_increases(
 				name_,
 				prev.class_name,
@@ -124,6 +137,20 @@
 	/>
 </svelte:head>
 
+<div class="modal {display_errors ? 'modal-open' : ''}" id="errors-modal">
+	<div class="modal-box">
+		<h3 class="text-lg font-bold text-error mb-3">Errors:</h3>
+		<ul class="list-disc list-inside">
+			{#each errors as error}
+				<li>{error}</li>
+			{/each}
+		</ul>
+		<div class="modal-action">
+			<button class="btn btn-sm" on:click={() => (display_errors = false)}>OK</button>
+		</div>
+	</div>
+</div>
+
 <section>
 	<div class="drawer drawer-mobile">
 		<input class="drawer-toggle" type="checkbox" />
@@ -149,11 +176,13 @@
 								class="input input-bordered mb-4"
 								placeholder="Final level"
 								type="number"
-								min="10"
-								max="40"
 								required
 							/>
-							<button type="submit" class="btn btn-sm btn-outline btn-primary">
+							<button
+								type="submit"
+								class="btn btn-sm btn-outline btn-primary"
+								disabled={data[name].length >= 10}
+							>
 								Add promotion
 							</button>
 						</form>
