@@ -4,7 +4,6 @@
 		get_overall_growths,
 		get_class_growths,
 		get_class,
-		get_max_level_of_class,
 		get_available_class_names
 	} from './data';
 
@@ -89,7 +88,14 @@
 			return;
 		}
 
-		const stat_increases = get_expected_stat_increases(name_, current_class, 1, class_, level_);
+		const starting_level = class_ === current_class ? current_level : 1;
+		const stat_increases = get_expected_stat_increases(
+			name_,
+			current_class,
+			starting_level,
+			class_,
+			level_
+		);
 		const final_stats = previous_final_stats.map((x, i) => {
 			return Math.min(x + stat_increases[i], get_class(name_, class_).max_stats[i]);
 		});
