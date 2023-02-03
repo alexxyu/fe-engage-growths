@@ -235,7 +235,7 @@
 				{/if}
 			{/each}
 		</div>
-		<div class="drawer-side overscroll-contain">
+		<div class="drawer-side">
 			<ul class="menu">
 				{#each Object.keys(units) as name}
 					<li>
