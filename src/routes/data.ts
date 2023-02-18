@@ -512,7 +512,7 @@ export const exclusive_classes: Record<string, Record<string, Class>> = {
 			is_base_class: false
 		}
 	},
-	Celine: {
+	Céline: {
 		Noble: {
 			base_stats: [20, 5, 8, 5, 8, 3, 5, 4, 4],
 			growth_rates: [0, 5, 10, 5, 5, 5, 10, 20, 0],
