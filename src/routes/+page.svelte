@@ -6,6 +6,7 @@
 		get_class,
 		get_available_class_names
 	} from './data';
+	import Select from 'svelte-select';
 
 	const get_expected_stat_increases = (
 		name: string,
@@ -35,6 +36,7 @@
 		expected_final_stats: number[];
 	};
 
+	let form_data: Record<string, [string, number]> = {};
 	let data: Record<string, PromotionEntry[]> = {};
 	Object.keys(units).forEach((name) => {
 		const unit = units[name];
@@ -46,6 +48,7 @@
 				expected_final_stats: unit.base_stats
 			}
 		];
+		form_data[name] = ['', 1];
 	});
 
 	let errors: string[] = [];
@@ -54,10 +57,8 @@
 	const add_entry = (e: SubmitEvent) => {
 		const form = e.target as HTMLFormElement;
 		const name_ = form.name_.value;
-		const class_ = form.class_.value;
-		const level_ = form.level_.value;
+		const [class_, level_] = form_data[name_];
 
-		errors = [];
 		if (level_ < 1 || level_ > 40) {
 			errors = [...errors, 'Level must be between 1 and 40.'];
 		} else if (level_ > 20 && class_ !== 'Thief' && class_ !== 'Dancer') {
@@ -166,19 +167,18 @@
 					<div class="flex">
 						<form class="flex flex-col mr-8" on:submit|preventDefault={add_entry}>
 							<input name="name_" value={name} hidden />
-							<select name="class_" id="unit-select" class="select select-bordered mb-2">
-								<option disabled>Select class</option>
-								{#each get_available_class_names(name) as class_}
-									<option value={class_}>
-										{class_}
-									</option>
-								{/each}
-							</select>
+							<Select
+								items={get_available_class_names(name)}
+								class="select select-bordered mb-2"
+								placeholder="Select class"
+								bind:justValue={form_data[name][0]}
+								required
+							/>
 							<input
-								name="level_"
 								class="input input-bordered mb-4"
 								placeholder="Final level"
 								type="number"
+								bind:value={form_data[name][1]}
 								required
 							/>
 							<button

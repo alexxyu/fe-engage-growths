@@ -636,12 +636,14 @@ export const get_class = (unit_: string, class_: string) => {
 };
 
 export const get_available_class_names = (unit_: string) => {
-	return [
+	const available_classes = [
 		...Object.keys(exclusive_classes?.[unit_] ?? {}).filter(
 			(name) => exclusive_classes?.[unit_]?.[name]
 		),
 		...Object.keys(classes)
 	];
+	const base_class = units[unit_].base_class;
+	return [base_class].concat(available_classes.filter((x) => x !== base_class).sort());
 };
 
 export const get_max_level_of_class = (class_: string) => {
