@@ -23,13 +23,13 @@
 	$: {
 		class_names = get_available_class_names(unit_);
 		recs_by_correlation = ((unit_) => {
-			let correlation = class_names.map((class_) => {
+			let correlation: [number, string][] = class_names.map((class_) => {
 				return [
 					round(sampleCorrelation(units[unit_].growth_rates, get_class_growths(unit_, class_)), 3),
 					class_
 				];
 			});
-			return correlation.sort().reverse();
+			return correlation.sort((a, b) => a[0] - b[0]).reverse();
 		})(unit_);
 		exc_ovr_stat_thresholds = ((unit_: string) => {
 			const stats = transpose(
