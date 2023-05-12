@@ -29,7 +29,7 @@
           class_
         ];
       });
-      return correlation.sort((a, b) => a[0] - b[0]).reverse();
+      return correlation.sort((a, b) => b[0] - a[0]);
     })(unit_);
     exc_ovr_stat_thresholds = ((unit_: string) => {
       const stats = transpose(
