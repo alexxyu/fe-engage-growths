@@ -59,6 +59,7 @@
 		const name_ = form.name_.value;
 		const [class_, level_] = form_data[name_];
 
+		errors = [];
 		if (level_ < 1 || level_ > 40) {
 			errors = [...errors, 'Level must be between 1 and 40.'];
 		} else if (level_ > 20 && class_ !== 'Thief' && class_ !== 'Dancer') {
@@ -73,12 +74,8 @@
 		} = prev_entry;
 
 		const current_class_data = get_class(name_, current_class);
-		const new_class_data = get_class(name_, class_);
-		if (!new_class_data.is_base_class && current_class_data.is_base_class && current_level < 10) {
-			errors = [
-				...errors,
-				'Unit must be at least level 10 in a base class to promote to an advanced class.'
-			];
+		if (class_ !== current_class && current_class_data.is_base_class && current_level < 10) {
+			errors = [...errors, 'Unit must be at least level 10 in a base class to change classes.'];
 		}
 
 		if (errors.length > 0) {
@@ -110,8 +107,36 @@
 	};
 
 	const delete_entry = (name_: string, i: number) => {
-		data[name_].splice(i, 1);
-		data[name_].reduce((prev, entry) => {
+		const unit_data = data[name_];
+		const curr_entry = unit_data[i];
+		const curr_class_data = get_class(name_, curr_entry.class_name);
+		const next_entry = unit_data?.[i + 1];
+
+		errors = [];
+		if (
+			next_entry &&
+			next_entry.class_name !== curr_entry.class_name &&
+			curr_class_data.is_base_class
+		) {
+			if (
+				curr_entry.final_level < 10 ||
+				unit_data?.[i - 1]?.class_name !== curr_entry.class_name ||
+				unit_data?.[i - 1]?.final_level < 10
+			) {
+				errors = [
+					...errors,
+					'Deleting this entry is invalid since units in base classes must be at least level 10 to change classes.'
+				];
+			}
+		}
+
+		if (errors.length > 0) {
+			display_errors = true;
+			return;
+		}
+
+		unit_data.splice(i, 1);
+		unit_data.reduce((prev, entry) => {
 			const stat_increases = get_expected_stat_increases(
 				name_,
 				prev.class_name,
