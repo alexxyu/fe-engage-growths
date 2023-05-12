@@ -24,10 +24,7 @@
 		const class_base_stats_current = get_class(name, current_class).base_stats;
 		const class_base_stats_new = get_class(name, new_class).base_stats;
 		return overall_growths.map(
-			(x, i) =>
-				class_base_stats_new[i] -
-				class_base_stats_current[i] +
-				Math.round((remaining_levels * x) / 100)
+			(x, i) => class_base_stats_new[i] - class_base_stats_current[i] + (remaining_levels * x) / 100
 		);
 	};
 
@@ -117,7 +114,7 @@
 			const stat_increases = get_expected_stat_increases(
 				name_,
 				prev.class_name,
-				1,
+				prev.final_level,
 				entry.class_name,
 				entry.final_level
 			);
@@ -225,7 +222,7 @@
 											{class_entry.class_name} lvl. {class_entry.final_level}
 										</th>
 										{#each class_entry.expected_final_stats as stat}
-											<td>{stat}</td>
+											<td>{Math.floor(stat)}</td>
 										{/each}
 									</tr>
 								{/each}
