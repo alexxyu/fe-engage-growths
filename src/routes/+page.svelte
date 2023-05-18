@@ -48,7 +48,7 @@
         expected_final_stats: unit.base_stats
       }
     ];
-    form_data[name] = ['', 1];
+    form_data[name] = [unit.base_class, unit.base_level];
   });
 
   let errors: string[] = [];
@@ -189,7 +189,7 @@
           <div class="text-4xl font-bold my-12">
             {name}
           </div>
-          <div class="flex">
+          <div class="flex items-start">
             <form class="flex flex-col mr-8" on:submit|preventDefault={add_entry}>
               <input name="name_" value={name} hidden />
               <Select
@@ -197,6 +197,7 @@
                 class="select select-bordered mb-2"
                 placeholder="Select class"
                 bind:justValue={form_data[name][0]}
+                value={form_data[name][0]}
                 required
               />
               <input
@@ -234,14 +235,12 @@
                 {#each data[name] as class_entry, i}
                   <tr>
                     <th class="border-none px-0">
-                      {#if i > 0}
-                        <button
-                          class="btn btn-xs btn-outline btn-error mx-4"
-                          on:click={() => delete_entry(name, i)}
-                        >
-                          X
-                        </button>
-                      {/if}
+                      <button
+                        class="btn btn-xs btn-outline btn-error mx-4 {i === 0 ? 'invisible' : ''}"
+                        on:click={() => delete_entry(name, i)}
+                      >
+                        X
+                      </button>
                     </th>
                     <th class="">
                       {class_entry.class_name} lvl. {class_entry.final_level}
@@ -267,6 +266,14 @@
               on:click={() => (visible_unit = name)}
               aria-controls={name}
             >
+              <img
+                src="/portraits/{name
+                  .normalize('NFKD')
+                  .replace(/[^\w]/g, '')
+                  .toLocaleLowerCase()}.webp"
+                class="max-w-8 max-h-8"
+                alt={name}
+              />
               {name}
             </button>
           </li>
